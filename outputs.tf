@@ -12,3 +12,8 @@ output "bucket_domain" {
   value       = module.aws-web-bucket.domain
   description = "newly created bucket domain"
 }
+
+# Cloudfront distro url
+output "cloudfront_url" {
+  value = aws_cloudfront_distribution.s3-web-bucket.domain_name
+}
