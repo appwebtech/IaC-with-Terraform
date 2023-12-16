@@ -1,0 +1,17 @@
+# Local .terraform directories
+**/.terraform/*
+modules/aws-s3-web-bucket/*.terraform
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# Crash log files
+crash.log
+
+# Unignore .tfvars (required if running CI/CD with CircleCi and Actions ~ Disabling, no sensitive variables)
+# *.tfvars
+
+# Ignore .history
+.history/*
+.history/**
