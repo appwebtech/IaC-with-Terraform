@@ -13,3 +13,6 @@ output "domain" {
   value       = aws_s3_bucket_website_configuration.web_bucket_config.website_domain
 }
 
+output "s3_bucket_regional_domain_name" {
+  value = aws_s3_bucket.web_bucket_name.bucket_regional_domain_name
+}
