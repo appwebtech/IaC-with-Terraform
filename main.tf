@@ -13,8 +13,6 @@ module "aws-web-bucket" {
 }
 
 # S3 bucket logs, ACL, & ownership controls for Cloudfront CDN
-
-
 resource "aws_s3_bucket" "cdn-website-logs" {
   bucket = "${var.s3-bucket-logs.name}-${var.s3-bucket-logs.purpose}-${var.s3-bucket-logs.website}.${random_id.loggy.hex}"
 
@@ -34,7 +32,8 @@ resource "aws_s3_bucket_logging" "cdn-website" {
 
 resource "aws_s3_bucket_acl" "cdn-bucket-acl" {
   bucket = aws_s3_bucket.cdn-website-logs.id
-  acl    = "private"
+  // acl = "private"   # Throwing bucket access error.
+  acl = "log-delivery-write"
   depends_on = [
     aws_s3_bucket_ownership_controls.cdn-bucket-acl-ownership
   ]
@@ -45,6 +44,5 @@ resource "aws_s3_bucket_ownership_controls" "cdn-bucket-acl-ownership" {
   rule {
     object_ownership = "ObjectWriter"
   }
-
-
 }
+
