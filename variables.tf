@@ -28,7 +28,7 @@ variable "website-domain-name" {
   description = "website domain name"
 }
 
-# S3 Bucket logs for Cloudfront CDN Variables
+# S3 Bucket logs for Cloudfront CDN
 variable "s3-bucket-logs" {
   type = map(string)
   default = {
@@ -38,3 +38,4 @@ variable "s3-bucket-logs" {
   }
   description = "logging bucket for hosted S3 bucket"
 }
+
