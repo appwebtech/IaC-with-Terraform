@@ -34,13 +34,18 @@ output "cloudfront-s3-bucked-hosted-id" {
 }
 
 output "aws-acm-cert-arn" {
-  value = aws_acm_certificate.website-domain-cert.arn
+  value       = aws_acm_certificate.website-domain-cert.arn
   sensitive   = true
   description = "cloudfront ditribution s3 bucket hosted id"
 }
 
 output "aws-acm-SSL-TLS-cert" {
-  value = aws_acm_certificate.website-domain-cert.id
+  value       = aws_acm_certificate.website-domain-cert.id
   sensitive   = true
   description = "view the SSL/TLS cert"
+}
+
+output "API-gateway-endpoint" {
+  value       = aws_apigatewayv2_api.aws-web-bucket_api.id
+  description = "API gateway endpoint backend-frontend integration"
 }
