@@ -1,7 +1,7 @@
 # Create S3 bucket
 resource "aws_s3_bucket" "web_bucket_name" {
   bucket = var.s3_bucket-name
-
+  force_destroy = true
   tags = var.resource-tags
 }
 
@@ -23,9 +23,9 @@ resource "aws_s3_bucket_ownership_controls" "web_bucket" {
   bucket = aws_s3_bucket.web_bucket_name.id
 
   rule {
-    // object_ownership = "BucketOwnerPreferred"
     object_ownership = "BucketOwnerEnforced"
   }
+  depends_on = [aws_s3_bucket_public_access_block.web_bucket_public]
 }
 
 
@@ -38,19 +38,6 @@ resource "aws_s3_bucket_public_access_block" "web_bucket_public" {
   ignore_public_acls      = false
   restrict_public_buckets = false
 }
-
-# Create bucket ACl == after creating ownership controls and public access ()
-# Removing ACL. AWS has updated how they manage objects for static content (https://repost.aws/knowledge-center/s3-website-does-not-load)
-// resource "aws_s3_bucket_acl" "web_bucket_acl" {
-//   depends_on = [
-//     aws_s3_bucket_ownership_controls.web_bucket,
-//     aws_s3_bucket_public_access_block.web_bucket_public,
-//   ]
-
-//   bucket = aws_s3_bucket.web_bucket_name.id
-
-//   acl = "public-read"
-// }
 
 # Enable bucket versioning
 resource "aws_s3_bucket_versioning" "web_bucket_public" {
@@ -80,10 +67,6 @@ resource "aws_s3_bucket_cors_configuration" "web_bucket_public" {
 
 # Create bucket policy
 resource "aws_s3_bucket_policy" "web_bucket_policy" {
-  // depends_on = [
-  //   aws_s3_bucket_acl.web_bucket_acl
-  // ]
-
   bucket = aws_s3_bucket.web_bucket_name.id
 
   policy = jsonencode({
@@ -101,5 +84,18 @@ resource "aws_s3_bucket_policy" "web_bucket_policy" {
       },
     ]
   })
+  depends_on = [aws_s3_bucket_public_access_block.web_bucket_public]
 }
 
+# Create bucket ACl == after creating ownership controls and public access ()
+# Removing ACL. AWS has updated how they manage objects for static content (https://repost.aws/knowledge-center/s3-website-does-not-load)
+// resource "aws_s3_bucket_acl" "web_bucket_acl" {
+//   depends_on = [
+//     aws_s3_bucket_ownership_controls.web_bucket,
+//     aws_s3_bucket_public_access_block.web_bucket_public,
+//   ]
+
+//   bucket = aws_s3_bucket.web_bucket_name.id
+
+//   acl = "public-read"
+// }
