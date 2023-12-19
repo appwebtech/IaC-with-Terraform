@@ -1,6 +1,6 @@
 # Creat HTTP API in API Gateway and integrate with AWS Proxy
 resource "aws_iam_policy_attachment" "counter_lambda_policy" {
-  name       = "website_counter_lambda_attachment"
+  name       = var.lambda_attachment
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaRole"
   roles      = [aws_iam_role.counter_lambda_role.name]
 }

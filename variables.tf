@@ -3,6 +3,20 @@ variable "my_region" {
   description = "Your closest AWS region"
 }
 
+variable "web-page_counter" {
+  type        = string
+  description = "Counter for page visits"
+}
+
+variable "lambda_role" {
+  type        = string
+  description = "Name of my web page lambda role"
+}
+
+variable "lambda_attachment" {
+  type        = string
+  description = "Website lambda attachment"
+}
 
 variable "resource_tags" {
   type = map(string)

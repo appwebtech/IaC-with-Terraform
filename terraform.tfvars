@@ -1,2 +1,5 @@
 my_region           = "eu-west-2"
 website-domain-name = "josephmwania.com"
+web-page_counter = "website_counter"
+lambda_role = "web_page_lambda_role"
+lambda_attachment = "iam-policy-lambda"

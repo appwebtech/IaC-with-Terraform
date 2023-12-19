@@ -1,6 +1,6 @@
 # DynamoDB and Lambda Function
 resource "aws_dynamodb_table" "counter_table" {
-  name         = "website_counter"
+  name         = var.web-page_counter
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "page_id"
   attribute {
@@ -26,7 +26,7 @@ resource "aws_lambda_function" "counter_lambda" {
 }
 
 resource "aws_iam_role" "counter_lambda_role" {
-  name = "website_counter_lambda_role"
+  name = var.lambda_role
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
