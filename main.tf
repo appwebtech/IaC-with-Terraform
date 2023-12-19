@@ -31,7 +31,7 @@ resource "aws_s3_bucket_logging" "cdn-website" {
 
 resource "aws_s3_bucket_acl" "cdn-bucket-acl" {
   bucket = aws_s3_bucket.cdn-website-logs.id
-  acl = "log-delivery-write"
+  acl    = "log-delivery-write"
   depends_on = [
     aws_s3_bucket_ownership_controls.cdn-bucket-acl-ownership
   ]
@@ -46,13 +46,13 @@ resource "aws_s3_bucket_ownership_controls" "cdn-bucket-acl-ownership" {
 
 # S3 Bucket object source and Encryption
 resource "aws_s3_object" "bucket-objects" {
-  bucket = module.aws-web-bucket.name
+  bucket                 = module.aws-web-bucket.name
   for_each               = fileset("./modules/aws-s3-web-bucket/www/", "**")
   key                    = each.value
   content_type           = "text/html"
   source                 = "./modules/aws-s3-web-bucket/www/${each.value}"
   server_side_encryption = "AES256"
-  etag = filemd5("./modules/aws-s3-web-bucket/www/${each.value}")
+  etag                   = filemd5("./modules/aws-s3-web-bucket/www/${each.value}")
 
   depends_on = [
     module.aws-web-bucket.name
