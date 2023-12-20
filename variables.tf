@@ -72,10 +72,6 @@ variable "lambda_attachment" {
   description = "Website lambda attachment"
 }
 
-variable "dynamoDB-policy" {
-  type        = string
-  description = "DynamoDB policy name"
-}
 
 variable "dynamoDB-attributes" {
   type = map(string)
