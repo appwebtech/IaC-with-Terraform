@@ -57,17 +57,18 @@ resource "aws_iam_policy_attachment" "counter_lambda_policy_attachment" {
 }
 
 #--------------------------------------------------------------------------------------------------------------------------------------
-# Lambda (There is a known issue with Botocore throwing 'DEPRECATED_SERVICE_NAMES' even though I was using the latest Python version.)
+# There is a known issue with Botocore throwing 'DEPRECATED_SERVICE_NAMES' even though I was using a stable Python version (3.8) as my runtime.)
 # I had to downgrade my Boto3 libraries to 1.26.90 and repackaged the binaries again prior to uploading to AWS Lambda
 # Issue is tracked here: https://github.com/boto/boto3/issues/3648
 #--------------------------------------------------------------------------------------------------------------------------------------
+# Lambda Fn
 resource "aws_lambda_function" "counter_lambda" {
-  filename      = "counter_lambda.zip"
-  function_name = "website_counter_lambda"
   role          = aws_iam_role.counter_lambda_role.arn
-  handler       = "lambda_function.handler"
-  runtime       = "python3.8"
-  timeout       = 10
+  filename      = var.lambda-attributes.filename
+  function_name = var.lambda-attributes.function_name
+  handler       = var.lambda-attributes.handler
+  runtime       = var.lambda-attributes.runtime
+  timeout       = var.lambda-attributes.timeout
 
   environment {
     variables = {

@@ -54,6 +54,19 @@ variable "lambda_role" {
   description = "Name of my web page lambda role"
 }
 
+variable "lambda-attributes" {
+  type = map(string)
+  default = {
+    filename      = "counter_lambda.zip"
+    function_name = "website_counter_lambda"
+    handler       = "lambda_function.handler"
+    runtime       = "python3.8"
+    timeout       = 10
+  }
+  description = "description"
+}
+
+
 variable "lambda_attachment" {
   type        = string
   description = "Website lambda attachment"
