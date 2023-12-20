@@ -6,7 +6,7 @@ resource "aws_iam_policy_attachment" "counter_lambda_policy" {
 }
 
 resource "aws_apigatewayv2_api" "aws-web-bucket_api" {
-  name          = "aws-web-bucket-api"
+  name          = var.api-gw-name
   protocol_type = "HTTP"
   target        = aws_lambda_function.counter_lambda.invoke_arn
   cors_configuration {
@@ -58,6 +58,6 @@ resource "aws_apigatewayv2_domain_name" "aws-web-bucket-domain" {
 # Deploy to stage
 resource "aws_apigatewayv2_stage" "website_stage" {
   api_id      = aws_apigatewayv2_api.aws-web-bucket_api.id
-  name        = "prod"
+  name        = var.resource_tags.environment
   auto_deploy = true
 }

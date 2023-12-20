@@ -11,8 +11,8 @@ resource "aws_dynamodb_table" "counter_table" {
 
 # DynamoDB Policy
 resource "aws_iam_policy" "dynamodb_policy" {
-  name        = "DynamoDBPolicy"
-  description = "IAM policy for DynamoDB access"
+  name        = var.dynamoDB-attributes.name
+  description = var.dynamoDB-attributes.description
 
   policy = jsonencode({
     Version = "2012-10-17",
@@ -28,7 +28,7 @@ resource "aws_iam_policy" "dynamodb_policy" {
   })
 }
 
-# DynamoDB Role
+# DynamoDB Role 
 resource "aws_iam_role" "counter_lambda_role" {
   name = var.lambda_role
 
@@ -56,7 +56,11 @@ resource "aws_iam_policy_attachment" "counter_lambda_policy_attachment" {
   roles      = [aws_iam_role.counter_lambda_role.name]
 }
 
-# Lambda
+#--------------------------------------------------------------------------------------------------------------------------------------
+# Lambda (There is a known issue with Botocore throwing 'DEPRECATED_SERVICE_NAMES' even though I was using the latest Python version.)
+# I had to downgrade my Boto3 libraries to 1.26.90 and repackaged the binaries again prior to uploading to AWS Lambda
+# Issue is tracked here: https://github.com/boto/boto3/issues/3648
+#--------------------------------------------------------------------------------------------------------------------------------------
 resource "aws_lambda_function" "counter_lambda" {
   filename      = "counter_lambda.zip"
   function_name = "website_counter_lambda"

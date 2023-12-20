@@ -26,7 +26,7 @@ resource "aws_s3_bucket_logging" "cdn-website" {
   bucket = module.aws-web-bucket.name
 
   target_bucket = aws_s3_bucket.cdn-website-logs.id
-  target_prefix = "logs/cdn"
+  target_prefix = "logs/"
 }
 
 resource "aws_s3_bucket_acl" "cdn-bucket-acl" {

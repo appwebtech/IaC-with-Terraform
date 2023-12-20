@@ -8,16 +8,6 @@ variable "web-page_counter" {
   description = "Counter for page visits"
 }
 
-variable "lambda_role" {
-  type        = string
-  description = "Name of my web page lambda role"
-}
-
-variable "lambda_attachment" {
-  type        = string
-  description = "Website lambda attachment"
-}
-
 variable "resource_tags" {
   type = map(string)
   default = {
@@ -53,3 +43,32 @@ variable "s3-bucket-logs" {
   description = "logging bucket for hosted S3 bucket"
 }
 
+# API Gateway / Lambda / DynamoDB 
+variable "api-gw-name" {
+  type        = string
+  description = "AWS API Gateway name"
+}
+
+variable "lambda_role" {
+  type        = string
+  description = "Name of my web page lambda role"
+}
+
+variable "lambda_attachment" {
+  type        = string
+  description = "Website lambda attachment"
+}
+
+variable "dynamoDB-policy" {
+  type        = string
+  description = "DynamoDB policy name"
+}
+
+variable "dynamoDB-attributes" {
+  type = map(string)
+  default = {
+    name        = "DynamoDBPolicy"
+    description = "IAM policy for DynamoDB access"
+  }
+  description = "DynamoDB name and description"
+}
