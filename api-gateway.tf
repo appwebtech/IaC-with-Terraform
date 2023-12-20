@@ -9,12 +9,24 @@ resource "aws_apigatewayv2_api" "aws-web-bucket_api" {
   name          = "aws-web-bucket-api"
   protocol_type = "HTTP"
   target        = aws_lambda_function.counter_lambda.invoke_arn
+  cors_configuration {
+    allow_origins = ["*"]
+  }
 }
 
 resource "aws_apigatewayv2_integration" "lambda_integration" {
-  api_id           = aws_apigatewayv2_api.aws-web-bucket_api.id
-  integration_type = "AWS_PROXY"
-  integration_uri  = aws_lambda_function.counter_lambda.invoke_arn
+  api_id             = aws_apigatewayv2_api.aws-web-bucket_api.id
+  integration_type   = "AWS_PROXY"
+  integration_method = "POST"
+  integration_uri    = aws_lambda_function.counter_lambda.invoke_arn
+}
+
+# Permissions to apigw
+resource "aws_lambda_permission" "apigw" {
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.counter_lambda.arn
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_apigatewayv2_api.aws-web-bucket_api.execution_arn}/*/*"
 }
 
 # Routing
@@ -40,6 +52,7 @@ resource "aws_apigatewayv2_domain_name" "aws-web-bucket-domain" {
     endpoint_type   = "REGIONAL"
     security_policy = "TLS_1_2"
   }
+  depends_on = [aws_acm_certificate.website-domain-cert]
 }
 
 # Deploy to stage
