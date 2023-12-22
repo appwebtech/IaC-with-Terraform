@@ -9,12 +9,14 @@ resource "random_id" "loggy" {
 
 module "aws-web-bucket" {
   source         = "./modules/aws-s3-web-bucket"
-  s3_bucket-name = "${var.unique-bucket-name.name}-${var.unique-bucket-name.env}-${random_uuid.my-long-unique-name.result}"
+  s3_bucket-name = "${var.domain-bucket-name.name}.${var.domain-bucket-name.top-level-domain}"
 }
+
 
 # S3 bucket logs, ACL, & ownership controls for Cloudfront CDN
 resource "aws_s3_bucket" "cdn-website-logs" {
-  bucket = "${var.s3-bucket-logs.name}-${var.s3-bucket-logs.purpose}-${var.s3-bucket-logs.website}.${random_id.loggy.hex}"
+  bucket        = "${var.s3-bucket-logs.name}-${var.s3-bucket-logs.purpose}-${var.s3-bucket-logs.website}.${random_id.loggy.hex}"
+  force_destroy = true
   tags = {
     name    = var.s3-bucket-logs["name"]
     purpose = var.s3-bucket-logs["purpose"]
