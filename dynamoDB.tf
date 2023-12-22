@@ -28,7 +28,7 @@ resource "aws_iam_policy" "dynamodb_policy" {
   })
 }
 
-# DynamoDB Role 
+# DynamoDB Role
 resource "aws_iam_role" "counter_lambda_role" {
   name = var.lambda_role
 

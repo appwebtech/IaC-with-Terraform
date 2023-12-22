@@ -17,12 +17,11 @@ variable "resource_tags" {
   description = "resource tags"
 }
 
-
-variable "unique-bucket-name" {
+variable "domain-bucket-name" {
   type = map(string)
   default = {
-    name = "www"
-    env  = "josephmwania"
+    name             = "josephmwania"
+    top-level-domain = "com"
   }
   description = "A unique bucket name with a randomized suffix"
 }

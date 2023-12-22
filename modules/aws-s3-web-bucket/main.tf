@@ -87,15 +87,3 @@ resource "aws_s3_bucket_policy" "web_bucket_policy" {
   depends_on = [aws_s3_bucket_public_access_block.web_bucket_public]
 }
 
-# Create bucket ACl == after creating ownership controls and public access ()
-# Removing ACL. AWS has updated how they manage objects for static content (https://repost.aws/knowledge-center/s3-website-does-not-load)
-// resource "aws_s3_bucket_acl" "web_bucket_acl" {
-//   depends_on = [
-//     aws_s3_bucket_ownership_controls.web_bucket,
-//     aws_s3_bucket_public_access_block.web_bucket_public,
-//   ]
-
-//   bucket = aws_s3_bucket.web_bucket_name.id
-
-//   acl = "public-read"
-// }
