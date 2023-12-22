@@ -27,9 +27,10 @@ resource "aws_cloudfront_distribution" "s3-web-bucket" {
   // aliases = ["mysite.example.com", "yoursite.example.com"]
 
   default_cache_behavior {
-    allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
-    cached_methods   = ["GET", "HEAD"]
-    target_origin_id = local.s3_origin_id
+    allowed_methods  = ["GET", "HEAD", "OPTIONS"]
+    cached_methods   = ["GET", "HEAD", "OPTIONS"]
+    target_origin_id = module.aws-web-bucket.s3_bucket_regional_domain_name
+    compress         = true
 
     forwarded_values {
       query_string = false
@@ -39,7 +40,7 @@ resource "aws_cloudfront_distribution" "s3-web-bucket" {
       }
     }
 
-    viewer_protocol_policy = "allow-all"
+    viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
     default_ttl            = 3600
     max_ttl                = 86400
@@ -72,8 +73,9 @@ resource "aws_cloudfront_distribution" "s3-web-bucket" {
   ordered_cache_behavior {
     path_pattern     = "/content/*"
     allowed_methods  = ["GET", "HEAD", "OPTIONS"]
-    cached_methods   = ["GET", "HEAD"]
+    cached_methods   = ["GET", "HEAD", "OPTIONS"]
     target_origin_id = local.s3_origin_id
+    cache_policy_id  = data.aws_cloudfront_cache_policy.caching-optimized.id
 
     forwarded_values {
       query_string = false
@@ -94,25 +96,29 @@ resource "aws_cloudfront_distribution" "s3-web-bucket" {
 
   restrictions {
     geo_restriction {
-      restriction_type = "whitelist"
-      locations        = ["US", "CA", "GB", "DE"]
+      restriction_type = "none"
+      locations        = [] # ["US", "CA", "GB", "DE"]
     }
   }
-
   tags = {
-    Environment = "production"
+    resource = var.resource_tags["environment"]
   }
 
   viewer_certificate {
     cloudfront_default_certificate = true
+    acm_certificate_arn            = aws_acm_certificate.website-domain-cert.arn
   }
 }
 
 # CloudFront access origin control
 resource "aws_cloudfront_origin_access_control" "aws-web-bucket" {
-  name                              = "aws-web-bucket-OAC"
-  description                       = "origin acccess policy"
+  name                              = module.aws-web-bucket.s3_bucket_regional_domain_name
+  description                       = "origin acccess policy for CDN to access S3 bucket"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
   signing_protocol                  = "sigv4"
+}
+
+data "aws_cloudfront_cache_policy" "caching-optimized" {
+  name = "Managed Caching Optimized"
 }
