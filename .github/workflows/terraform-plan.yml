@@ -13,7 +13,7 @@ env:
 
 jobs:
   terraform:
-    if: github.repository == 'appwebtech/joseph-mwania-website'
+    if: github.repository == 'appwebtech/IaC-with-Terraform'
     name: "Terraform Plan"
     runs-on: ubuntu-latest
     permissions:
