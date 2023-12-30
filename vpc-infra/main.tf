@@ -261,7 +261,7 @@ resource "aws_lb" "web-server-lb" {
   subnets            = [for subnet in aws_subnet.public_subnets : subnet.id]
   enable_cross_zone_load_balancing = true
 
-  enable_deletion_protection = true
+  enable_deletion_protection = false
 
   # Created in a previous project
   access_logs {
