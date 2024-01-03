@@ -18,7 +18,7 @@ I also created a [multi-AZ VPC with resources](https://github.com/appwebtech/IaC
 
 I used Terraform to automate the whole process, below is the architecture diagram.
 
-![arch-drawing](./asset-files/arch-dig-joe.png)
+![arch-dig-joe](./asset-files/arch-dig-joe.png)
 
 ### Stacks and Implementations
 
@@ -38,4 +38,4 @@ I used Terraform to automate the whole process, below is the architecture diagra
 | [Terraform Cloud](https://app.terraform.io/session)  | Storage of [state files](./asset-files/TF-cloud-3.png) after speculative plans are applied in Terraform.  |
 | Terraform Cloud job runs | CI/CD visibility capabilities for [resource provisioning](./asset-files/TF-cloud-1.png) at a [granular](./asset-files/TF-cloud-2.png) level. |
 | [CircleCi](https://circleci.com/)  | An enterprise CI/CD platform with in-depth capabilities than GitHub Actions. [Deployment](./asset-files/CI-CD_1.png), [visibility](./asset-files/CI-CD_2.png) and [customization](./asset-files/CI-CD_3.png) are much more granular. |
-
+| Deployed Static Webpage (Resume)  | [Joseph Mwania Resume](https://josephmwania.com/)  |
