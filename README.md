@@ -28,8 +28,8 @@ I used Terraform to automate the whole process, below is the architecture diagra
 | [CloudFront](https://aws.amazon.com/cloudfront/)  | A [CDN](https://en.wikipedia.org/wiki/Content_delivery_network) for caching data globally |
 | [AWS S3](https://aws.amazon.com/s3/)  | Hosting static web page  |
 | [ACM](https://aws.amazon.com/certificate-manager/)  | For public and private SSL/TLS certificates    |
-| Backend  | [Lambda](https://aws.amazon.com/pm/lambda/), [API Gateway](https://aws.amazon.com/api-gateway/) (*for relaying requests between frontend and database*) and [DynamoDB](https://aws.amazon.com/dynamodb/) (*NoSQL key-value database for persisting data*) |
-| [CloudWatch](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html)  | Automate the bootstrapping of AMIs, instances with Autoscali group during scaling operations  |
+| Backend  | [Lambda](https://aws.amazon.com/pm/lambda/), [API Gateway](https://aws.amazon.com/api-gateway/) (*for relaying the web page `visitor counter` requests between frontend and database*) and [DynamoDB](https://aws.amazon.com/dynamodb/) (*NoSQL key-value database for persisting the number of visits count*) |
+| [CloudWatch](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html)  | Automate the bootstrapping of AMIs, instances with Autoscaling group during scaling operations  |
 | ALB  | Load balancer to distribute load within subnets across AZs |
 | SNS  | To get notifications eg via email when scaling operations are triggered  |
 | [Route53](https://aws.amazon.com/route53/)  | Domain registrar, DNS hosting, routing and records management  |
